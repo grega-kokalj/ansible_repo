@@ -5,3 +5,6 @@
     - name: gather facts
       debug:
         var: gather_facts
+    - name: show fqdn
+      debug:
+        msg: The fqdn of this machine is "{{ ansible_facts.fqdn }}"
