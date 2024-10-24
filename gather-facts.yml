@@ -8,3 +8,7 @@
     - name: show fqdn
       debug:
         msg: The fqdn of this machine is {{ ansible_facts.fqdn }}.
+    - name: install httpd
+      package:
+        name: httpd
+        state: latest
