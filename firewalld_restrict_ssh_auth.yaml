@@ -28,7 +28,7 @@
       
     - name: add rich rule
       firewalld:
-        rich_rule: 'firewall-cmd --permanent --add-rich-rule='rule family="ipv4" port protocol="tcp" port="22" drop'
+        rich_rule: 'rule family="ipv4" port protocol="tcp" port="22" drop'
         permanent: true
         immediate: true
         state: enabled
