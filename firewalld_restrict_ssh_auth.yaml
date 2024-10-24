@@ -12,30 +12,22 @@
         enabled: true
         state: started
   
-    - name: add rich rule
-      firewalld:
-        rich_rule: 'rule family="ipv4" source address="100.101.47.35" port protocol="tcp" port="22" accept'
-        permanent: true
-        immediate: true
-        state: enabled
-      notify: restart firewalld
-  
-    - name: disable default 
-      command:
+    - name: Allow SSH from specific IP (100.101.47.35)
+      ansible.builtin.command:
+        cmd: firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address="100.101.47.35" port protocol="tcp" port="22" accept'
+      notify: reload firewalld
+
+    - name: Remove default SSH service rule (if it exists)
+      ansible.builtin.command:
         cmd: firewall-cmd --permanent --remove-service=ssh
-      ignore_errors: yes
-      notify: restart firewalld
-      
-    - name: add rich rule
-      firewalld:
-        rich_rule: 'rule family="ipv4" port protocol="tcp" port="22" drop'
-        permanent: true
-        immediate: true
-        state: enabled
-      notify: restart firewalld
-    
-  handlers: 
-    - name: restart firewalld
-      service: 
-        name: firewalld
-        state: restarted
+      ignore_errors: yes  # Ignoring in case SSH service rule doesn't exist
+      notify: reload firewalld
+
+    - name: Block all other SSH traffic on port 22
+      ansible.builtin.command:
+        cmd: firewall-cmd --permanent --add-rich-rule='rule family="ipv4" port protocol="tcp" port="22" drop'
+      notify: reload firewalld
+
+  handlers:
+    - name: reload firewalld
+      ansible.builtin.command: firewall-cmd --reload
