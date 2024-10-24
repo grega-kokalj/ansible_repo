@@ -1,0 +1,41 @@
+---
+- name: firewalld rules for ssh
+  hosts: all
+  tasks:
+    - name: install firewalld
+      package:
+        name: firewalld
+        state: latest
+    - name: start firewalld service
+      service:
+        name: firewalld
+        enabled: true
+        state: started
+  
+    - name: add rich rule
+      firewalld:
+        rich_rule: 'rule family="ipv4" source address="100.101.47.35" port protocol="tcp" port="22" accept'
+        permanent: true
+        immediate: true
+        state: enabled
+      notify: restart firewalld
+  
+    - name: disable default 
+      command:
+        cmd: firewall-cmd --permanent --remove-service=ssh
+      ignore_errors: yes
+      notify: restart firewalld
+      
+    - name: add rich rule
+      firewalld:
+        rich_rule: 'rule family="ipv4" source address="100.101.47.35" port protocol="tcp" port="22" drop'
+        permanent: true
+        immediate: true
+        state: enabled
+      notify: restart firewalld
+    
+  handlers: 
+    - name: restart firewalld
+      service: 
+        name: firewalld
+        state: restarted
