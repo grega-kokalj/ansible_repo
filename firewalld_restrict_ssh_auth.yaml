@@ -14,7 +14,7 @@
   
     - name: add rich rule
       firewalld:
-        rich_rule: 'rule family="ipv4" source address="100.101.47.35" port protocol="tcp" port="22" accept'
+        rich_rule: rule family="ipv4" source address="100.101.47.35" port protocol="tcp" port="22" accept
         permanent: true
         immediate: true
         state: enabled
@@ -28,7 +28,7 @@
       
     - name: add rich rule
       firewalld:
-        rich_rule: 'rule family="ipv4" source address="100.101.47.35" port protocol="tcp" port="22" drop'
+        rich_rule: firewall-cmd --permanent --add-rich-rule='rule family="ipv4" port protocol="tcp" port="22" drop
         permanent: true
         immediate: true
         state: enabled
