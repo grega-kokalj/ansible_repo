@@ -28,7 +28,7 @@
         source: "!100.101.47.100"
         protocol: tcp
         destination_port: 22
-        jump: DROP
+        policy: DROP
         state: present
         comment: Deny all other SSH connections from other sources except desired source
     #- name: Save current state of the firewall in system file
