@@ -23,6 +23,7 @@
         comment: Accept SSH connections from AAP server
     - name: deny all other connections 
       iptables:
+        state: present
         chain: INPUT
         protocol: tcp
         destination_port: 22
