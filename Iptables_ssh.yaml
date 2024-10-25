@@ -1,6 +1,7 @@
 ---
 - name: Iptables
   hosts: all
+  become: yes
   tasks:
     - name: install iptables;
       package:
@@ -33,6 +34,7 @@
     - name: save rule
       shell: sudo iptables-save
       notify: restart iptables
+      become: yes
   
   handlers:
     - name: restart iptables
