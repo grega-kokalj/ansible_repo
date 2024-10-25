@@ -1,0 +1,13 @@
+---
+- name: Iptables
+  hosts: all
+  tasks:
+    - name: Set iptable rule for allowing ssh to port 22 from source x
+      iptables:
+        chain: INPUT
+        protocol: tcp
+        destination_port: 22
+        state: present
+        source: 100.101.47.35
+        policy: ACCEPT
+        comment: Accept SSH connections from AAP server
