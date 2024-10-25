@@ -29,6 +29,12 @@
         destination_port: 22
         jump: DROP
         comment: Deny all other SSH connections from other sources
-    #- name: save rule
-     # command:
-      #  cmd: sudo iptables-save > /etc/iptables/rules.v4
+    - name: save rule
+      command:
+        cmd: sudo iptables-save
+      notify: restart iptables
+  handlers: 
+    - name: restart iptables
+      service:
+        name: iptables
+        state: restarted
