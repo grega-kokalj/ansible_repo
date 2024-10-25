@@ -31,5 +31,11 @@
         comment: Deny all other SSH connections from other sources except desired source
       become: yes
     - name: save rule
-      command:
-        cmd: sudo iptables-save
+      shell: sudo iptables-save
+      notify: restart iptables
+  
+  handlers:
+    - name: restart iptables
+      service:
+        name: iptables
+        state: restarted
