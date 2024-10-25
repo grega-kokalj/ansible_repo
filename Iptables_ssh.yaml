@@ -31,13 +31,13 @@
         jump: DROP
         state: present
         comment: Deny all other SSH connections from other sources except desired source
-    - name: Save current state of the firewall in system file
-      community.general.iptables_state:
-        state: saved
-        path: /etc/sysconfig/iptables  
-    #- name: save rule
-     # shell: sudo iptables-save
-      #notify: restart iptables
+    #- name: Save current state of the firewall in system file
+      #community.general.iptables_state:
+       # state: saved
+      #  path: /etc/sysconfig/iptables  
+    - name: save rule
+      shell: sudo iptables-save > /etc/sysconfig/iptables
+      notify: restart iptables
   
   handlers:
     - name: restart iptables
