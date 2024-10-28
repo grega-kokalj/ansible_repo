@@ -14,7 +14,7 @@
         state: started
     - name: Block SSH on port 22 from all IPs except a specific IP
       ansible.builtin.command:
-        cmd: iptables -I INPUT -p tcp ! -s 192.168.1.100 --dport 22 -j DROP
+        cmd: iptables -I INPUT -p tcp ! -s 100.101.47.100 --dport 22 -j DROP
       become: yes
     #- name: Block SSH on port 22 from all IPs except a specific IP
     #  community.general.iptables:
