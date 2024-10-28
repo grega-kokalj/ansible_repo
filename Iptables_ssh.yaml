@@ -52,7 +52,7 @@
       #  path: /etc/sysconfig/iptables  
     - name: save rule
       shell: sudo iptables-save
-      #notify: restart iptables
+      notify: restart iptables
   
   handlers:
     - name: restart iptables
