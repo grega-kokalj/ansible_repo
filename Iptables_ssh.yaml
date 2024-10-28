@@ -12,8 +12,18 @@
         name: iptables
         enabled: true
         state: started
-    - name: rule
-      shell: sudo iptables -I INPUT -p tcp ! -s 100.101.47.100 --dport 22 -j DROP
+    - name: Block SSH on port 22 from all IPs except a specific IP
+      community.general.iptables:
+        chain: INPUT
+        protocol: tcp
+        source: "!192.168.1.100"
+        destination_port: 22
+        jump: DROP
+        insert: true
+      become: yes
+
+    #- name: rule
+     # shell: sudo iptables -I INPUT -p tcp ! -s 100.101.47.100 --dport 22 -j DROP
     #- name: Set iptable rule for allowing ssh to port 22 from source x
      # iptables:
       #  chain: INPUT
@@ -38,7 +48,7 @@
       #  path: /etc/sysconfig/iptables  
     - name: save rule
       shell: sudo iptables-save
-      notify: restart iptables
+      #notify: restart iptables
   
   handlers:
     - name: restart iptables
