@@ -1,0 +1,8 @@
+---
+- name: mkdir
+  hosts: all
+  tasks:
+    - name: create dir 
+      file:
+        state: directory
+        path: test_dir
